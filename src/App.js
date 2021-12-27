@@ -1,21 +1,16 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+import { UserProvider } from "./Contexts/User";
+import Login from "./Pages/Login";
+
+export default function App() {
+	return (
+		<UserProvider>
+			<BrowserRouter>
+				<Routes>
+					<Route path="/" element={<Login />}></Route>
+				</Routes>
+			</BrowserRouter>
+		</UserProvider>
+	);
 }
-
-export default App;
