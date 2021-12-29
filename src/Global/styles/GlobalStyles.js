@@ -9,6 +9,7 @@ const GlobalStyles = createGlobalStyle`
   --white-color: #fff;
   --light-purple-color: #3e3d53;
   --light-grey-color: #dddbe6;
+  --navbar-color: #131114;
 }
 
 body {

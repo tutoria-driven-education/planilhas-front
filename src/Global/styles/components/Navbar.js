@@ -1,21 +1,33 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-
-// import { IoCaretDownSharp } from "react-icons/io5";
-
+import { IoEnterOutline } from "react-icons/io5";
 import DrivenLogo from "../../../Assets/DrivenLogo.js";
+import { useContext } from "react";
+import UserContext from "../../../Contexts/User.js";
 
-export default function Navbar () {
+export default function Navbar() {
+  const { setUserData } = useContext(UserContext);
+
+  function logout() {
+
+  }
+
   return (
     <NavbarWrapper>
       <NavbarContent>
-        <DrivenLogo />
+        <Link to={"/menu"}>
+          <DrivenLogo />
+        </Link>
         <UserOptions>
-          Admin
+          <p>Admin</p>
+          <IconWrapper onClick={logout}>
+            <IoEnterOutline />
+          </IconWrapper>
         </UserOptions>
       </NavbarContent>
     </NavbarWrapper>
   );
-};
+}
 
 const NavbarWrapper = styled.div`
   position: fixed;
@@ -23,47 +35,41 @@ const NavbarWrapper = styled.div`
   left: 0;
   width: 100%;
   height: 75px;
-
-  background-color: #131114;
+  background-color: var(--navbar-color);
 `;
 
 const NavbarContent = styled.div`
   width: 1200px;
   height: inherit;
   margin: 0 auto;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   @media (max-width: 1200px) {
     width: 100%;
     padding: 0 10px;
   }
 `;
 
-// const DropdownIconWrapper = styled.span`
-//   width: 35px;
-//   height: 35px;
-//   border-radius: 50%;
-//   margin-left: 10px;
+const IconWrapper = styled.span`
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background-color: var(--light-purple-color);
+  cursor: pointer;
+`;
 
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-
-//   font-size: 18px;
-
-//   background-color: #3e3d53;
-// `;
-
-const UserOptions = styled.p`
+const UserOptions = styled.div`
   height: inherit;
-
   display: flex;
   align-items: center;
   padding-right: 20px;
   font-size: 16px;
   font-weight: bold;
-  color: #fff;
+  color: var(--white-color);
 `;

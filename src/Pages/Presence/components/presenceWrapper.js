@@ -11,17 +11,32 @@ export const SubmitButton = styled.button`
   color: var(--white-color);
   background-color: var(--pink-color);
   transition: filter 0.1s ease;
-  :hover {
+  &:hover {
     cursor: pointer;
     filter: brightness(0.85);
   }
-  :focus {
+  &:focus {
     outline: 3px solid var(--light-grey-color);
   }
-  :disabled {
-    cursor: default;
-    background-color: var(--light-grey-color);
-    filter: brightness(1);
+`;
+
+export const CancelButton = styled.button`
+  width: 115px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--white-color);
+  background-color: var(--pink-color);
+  transition: filter 0.1s ease;
+  &:hover {
+    cursor: pointer;
+    filter: brightness(0.85);
+  }
+  &:focus {
+    outline: 3px solid var(--light-grey-color);
   }
 `;
 
@@ -35,7 +50,7 @@ export const LoginPageContent = styled.div`
 `;
 
 export const LoginForm = styled.form`
-  padding: 55px 45px;
+  padding: 30px 45px;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -46,13 +61,6 @@ export const LoginForm = styled.form`
     width: 100%;
     padding: 25px;
   }
-`;
-
-export const Brand = styled.p`
-  margin: 25px 0;
-  font-size: 42px;
-  font-weight: bold;
-  color: #fff;
 `;
 
 export const InputGroup = styled.div`

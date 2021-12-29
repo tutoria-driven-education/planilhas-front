@@ -1,4 +1,4 @@
-import { Route, Navigate } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function ConditionalRoute({ check = () => [], ...props }) {
@@ -9,7 +9,7 @@ export default function ConditionalRoute({ check = () => [], ...props }) {
       if (condition.message) {
         toast(condition.message);
       }
-      return <Navigate to={condition.to} />;
+      return <Redirect to={condition.to} />;
     }
   }
 

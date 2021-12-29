@@ -1,4 +1,4 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Navigate } from "react-router-dom";
 import { UserProvider } from "./Contexts/User";
 import GlobalStyles from "./Global/styles/GlobalStyles";
 import { ToastContainer } from "react-toastify";

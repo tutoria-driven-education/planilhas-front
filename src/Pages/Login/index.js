@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import DrivenLogo from "../../Assets/DrivenLogo";
 import {
   LoginPageContent,
@@ -7,12 +7,18 @@ import {
   InputGroup,
   SubmitButton,
 } from "./components/LoginWrapper";
+import useApi from "../../Hooks/useApi";
+import Swal from "sweetalert2";
+import UserContext from "../../Contexts/User";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [fetchData, setFetchData] = useState({ email: "", password: "" });
-  const navigate = useNavigate();
+  const [disable, setDisable] = useState(false);
+  const { setUserData } = useContext(UserContext);
+  const api = useApi();
+  const history = useHistory();
 
   function submitHandler(event) {
     event.preventDefault();
@@ -22,7 +28,34 @@ export default function Login() {
     ) {
       return toast("Campo do email ou senha não confere!");
     }
-    navigate("/home")
+    setDisable(true);
+    api.auth.getAuth().then((res) => {
+      setDisable(false);
+      window.open(`${res.data.link}`, "_blank");
+      Swal.fire({
+        title:
+          "Uma nova janela será aberta, caso apareça um aviso não se preocupe, clique em avançado e aceite as permissões que está sendo pedido, após autorizar volte aqui e cole o código 😁",
+        input: "text",
+        inputAttributes: {
+          autocapitalize: "off",
+        },
+        showCancelButton: true,
+        confirmButtonText: "Enviar código",
+        showLoaderOnConfirm: true,
+        preConfirm: (code) => {
+          api.auth.sendAuth(code).then((res) => {
+            const stringfyToken = JSON.stringify(res.data.token);
+            setUserData(stringfyToken);
+            history.push("/menu");
+          });
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire("Acesso confirmado!");
+        }
+      });
+    });
   }
 
   return (
@@ -34,6 +67,7 @@ export default function Login() {
         <InputGroup>
           <label htmlFor="email">E-mail Driven</label>
           <input
+            disabled={disable}
             value={fetchData.email}
             id="email"
             type="text"
@@ -47,6 +81,7 @@ export default function Login() {
         <InputGroup>
           <label htmlFor="password">Senha</label>
           <input
+            disabled={disable}
             value={fetchData.password}
             id="password"
             type="password"
@@ -56,7 +91,7 @@ export default function Login() {
             }
           ></input>
         </InputGroup>
-        <SubmitButton>Entrar</SubmitButton>
+        <SubmitButton disabled={disable}>Entrar</SubmitButton>
       </LoginForm>
     </LoginPageContent>
   );
