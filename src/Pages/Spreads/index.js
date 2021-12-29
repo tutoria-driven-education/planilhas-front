@@ -42,8 +42,6 @@ export default function Spreads() {
       token: parsedUserData,
     };
 
-    console.log(body)
-
     Swal.fire({
       title: "As planilhas estão publicas?",
       text: "Depois que iniciar esse processo, terá que espera-lo terminar, isso pode tomar algum tempo!",

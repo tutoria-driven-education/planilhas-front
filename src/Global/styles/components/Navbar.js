@@ -1,15 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { IoEnterOutline } from "react-icons/io5";
 import DrivenLogo from "../../../Assets/DrivenLogo.js";
-import { useContext } from "react";
-import UserContext from "../../../Contexts/User.js";
 
 export default function Navbar() {
-  const { setUserData } = useContext(UserContext);
-
+  const history = useHistory();
+  
   function logout() {
-
+    localStorage.removeItem("token");
+    history.push("/");
   }
 
   return (
