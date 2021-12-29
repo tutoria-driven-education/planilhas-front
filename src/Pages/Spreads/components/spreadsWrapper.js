@@ -11,12 +11,17 @@ export const SubmitButton = styled.button`
   color: var(--white-color);
   background-color: var(--pink-color);
   transition: filter 0.1s ease;
-  &:hover {
+  :hover {
     cursor: pointer;
     filter: brightness(0.85);
   }
-  &:focus {
+  :focus {
     outline: 3px solid var(--light-grey-color);
+  }
+  :disabled {
+    cursor: default;
+    background-color: var(--light-grey-color);
+    filter: brightness(1);
   }
 `;
 
@@ -25,18 +30,22 @@ export const CancelButton = styled.button`
   padding: 10px;
   border: none;
   border-radius: 5px;
-  margin: 10px 0;
   font-size: 16px;
   font-weight: bold;
   color: var(--white-color);
   background-color: var(--pink-color);
   transition: filter 0.1s ease;
-  &:hover {
+  :hover {
     cursor: pointer;
     filter: brightness(0.85);
   }
-  &:focus {
+  :focus {
     outline: 3px solid var(--light-grey-color);
+  }
+  :disabled {
+    cursor: default;
+    background-color: var(--light-grey-color);
+    filter: brightness(1);
   }
 `;
 
@@ -88,6 +97,12 @@ export const InputGroup = styled.div`
     @media (max-width: 992px) {
       width: 100%;
     }
+    
+  }
+  :disabled {
+    cursor: default;
+    background-color: var(--light-grey-color);
+    filter: brightness(1);
   }
   @media (max-width: 992px) {
     width: 100%;

@@ -24,7 +24,7 @@ export default function Spreads() {
     className: "",
   });
   const api = useApi();
-  
+
   function submitHandler(event) {
     event.preventDefault();
     if (
@@ -32,17 +32,18 @@ export default function Spreads() {
       fetchData.linkSpreadsheetTemplate === "" ||
       fetchData.amountStudents === "" ||
       fetchData.className === ""
-      ) {
-        return toast("Algum campo está vázio!");
-      }
-      
-      const parsedUserData = JSON.parse(userData);
-      const body = {
+    ) {
+      return toast("Algum campo está vázio!");
+    }
+
+    const parsedUserData = JSON.parse(userData);
+    const body = {
       ...fetchData,
       token: parsedUserData,
     };
-    
-    setDisable(true);
+
+    console.log(body)
+
     Swal.fire({
       title: "As planilhas estão publicas?",
       text: "Depois que iniciar esse processo, terá que espera-lo terminar, isso pode tomar algum tempo!",
@@ -54,16 +55,15 @@ export default function Spreads() {
       cancelButtonText: "Cancelar!",
     }).then((result) => {
       if (result.isConfirmed) {
+        setDisable(true);
         Swal.fire("Gerando planilhas!");
         api.execute
           .createSpreads(body)
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             setDisable(false);
             Swal.fire("Planilhas geradas com sucesso!");
           })
-          .catch((err) => {
-            console.log(err);
+          .catch(() => {
             setDisable(false);
             Swal.fire(
               "Ocorreu um erro, verifique o drive ou as planilhas enviadas!"
@@ -80,23 +80,10 @@ export default function Spreads() {
         <InputGroup>
           <label>Template planilha principal</label>
           <input
-            value={fetchData.linkSpreadsheetTemplate}
-            type="url"
-            placeholder="Link da planilha"
-            onChange={(event) =>
-              setFetchData({
-                ...fetchData,
-                linkSpreadsheetTemplate: event.target.value,
-              })
-            }
-          ></input>
-        </InputGroup>
-        <InputGroup>
-          <label>Template planilha aluno</label>
-          <input
+            disabled={disable}
             value={fetchData.linkSpreadsheetStudents}
             type="url"
-            placeholder="Link da planilha aluno"
+            placeholder="Link da planilha"
             onChange={(event) =>
               setFetchData({
                 ...fetchData,
@@ -106,8 +93,24 @@ export default function Spreads() {
           ></input>
         </InputGroup>
         <InputGroup>
+          <label>Template planilha aluno</label>
+          <input
+            disabled={disable}
+            value={fetchData.linkSpreadsheetTemplate}
+            type="url"
+            placeholder="Link da planilha aluno"
+            onChange={(event) =>
+              setFetchData({
+                ...fetchData,
+                linkSpreadsheetTemplate: event.target.value,
+              })
+            }
+          ></input>
+        </InputGroup>
+        <InputGroup>
           <label>Nome da pasta a ser criada</label>
           <input
+            disabled={disable}
             value={fetchData.className}
             type="text"
             placeholder="Nome da pasta que será gerada"
@@ -119,6 +122,7 @@ export default function Spreads() {
         <InputGroup>
           <label>Quantidade de alunos na planilha</label>
           <input
+            disabled={disable}
             value={fetchData.amountStudents}
             type="text"
             placeholder="Quantidade de alunos presente na planilha"
@@ -127,9 +131,15 @@ export default function Spreads() {
             }
           ></input>
         </InputGroup>
-        <SubmitButton type="submit">{disable ? <Loader type="ThreeDots" color="#FFF" height={10} width={60} /> : "Criar"}</SubmitButton>
+        <SubmitButton disabled={disable} type="submit">
+          {disable ? (
+            <Loader type="ThreeDots" color="var(--pink-color)" height={10} width={60} />
+          ) : (
+            "Criar"
+          )}
+        </SubmitButton>
         <Link to={"/menu"}>
-          <CancelButton>Voltar</CancelButton>
+          <CancelButton disabled={disable}>Voltar</CancelButton>
         </Link>
       </LoginForm>
     </LoginPageContent>
