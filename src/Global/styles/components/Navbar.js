@@ -1,7 +1,6 @@
-import React from "react";
 import styled from "styled-components";
 
-import { IoCaretDownSharp } from "react-icons/io5";
+// import { IoCaretDownSharp } from "react-icons/io5";
 
 import DrivenLogo from "../../../Assets/DrivenLogo.js";
 
@@ -11,10 +10,7 @@ export default function Navbar () {
       <NavbarContent>
         <DrivenLogo />
         <UserOptions>
-          Usuario
-          <DropdownIconWrapper>
-            <IoCaretDownSharp />
-          </DropdownIconWrapper>
+          Admin
         </UserOptions>
       </NavbarContent>
     </NavbarWrapper>
@@ -46,27 +42,27 @@ const NavbarContent = styled.div`
   }
 `;
 
-const DropdownIconWrapper = styled.span`
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  margin-left: 10px;
+// const DropdownIconWrapper = styled.span`
+//   width: 35px;
+//   height: 35px;
+//   border-radius: 50%;
+//   margin-left: 10px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
 
-  font-size: 18px;
+//   font-size: 18px;
 
-  background-color: #3e3d53;
-`;
+//   background-color: #3e3d53;
+// `;
 
 const UserOptions = styled.p`
   height: inherit;
 
   display: flex;
   align-items: center;
-
+  padding-right: 20px;
   font-size: 16px;
   font-weight: bold;
   color: #fff;

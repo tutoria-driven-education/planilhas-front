@@ -1,85 +1,73 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-
-import Navbar from "../../global/styles/components/Navbar";
+import { useContext, useState } from "react";
+import Navbar from "../../Global/styles/components/Navbar";
+import {
+  Main,
+  Container,
+  FormContainer,
+  SubmitBtn,
+} from "./components/HomeWrapper";
+import useApi from "../../Hooks/useApi";
+import Swal from "sweetalert2";
+import UserContext from "../../Contexts/User";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-    // const [formsData, setFormsData] = useState(null);
-    return (
-        <Container>
-            <Navbar />
-            <FormContainer>
-                <label htmlFor="link">Link da Planilha de Matrícula</label>
-                <input
-                    id="link"
-                    type="url"
-                ></input>            
-                <SubmitBtn>Enviar</SubmitBtn>
+  const [fetchData, setFetchData] = useState("");
+  const [disable, setDisable] = useState(false);
+  const { userData, setUserData } = useContext(UserContext);
+  const navigate = useNavigate();
+  const api = useApi();
+  console.log(userData);
 
+  function submitHandler(event) {
+    event.preventDefault();
+    setDisable(true);
+    api.auth.getAuth().then((res) => {
+      setDisable(false);
+      window.open(`${res.data.link}`, "_blank");
+      Swal.fire({
+        title:
+          "Uma nova janela será aberta, caso apareça um aviso não se preocupe, clique em avançado e aceite as permissões que está sendo pedido, após autorizar volte aqui e cole o código 😁",
+        input: "text",
+        inputAttributes: {
+          autocapitalize: "off",
+        },
+        showCancelButton: true,
+        confirmButtonText: "Enviar código",
+        showLoaderOnConfirm: true,
+        preConfirm: (code) => {
+          api.auth.sendAuth(code).then((res) => {
+            const stringfyToken = JSON.stringify(res.data.token);
+            setUserData(stringfyToken);
+            navigate("/menu");
+          });
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      }).then((result) => {
+        if (result.isConfirmed) {
+          console.log(result);
+          Swal.fire("Acesso confirmado!");
+        }
+      });
+    });
+  }
 
-            </FormContainer>
-        </Container>
-    )
+  return (
+    <Main>
+      <Navbar />
+      <Container>
+        <FormContainer onSubmit={submitHandler}>
+          <label htmlFor="link">Link da Planilha de Matrícula</label>
+          <input
+            value={fetchData}
+            onChange={(e) => setFetchData(e.target.value)}
+            id="link"
+            type="url"
+            disabled={disable}
+          ></input>
+          <SubmitBtn disabled={disable}>Enviar</SubmitBtn>
+        </FormContainer>
+      </Container>
+    </Main>
+  );
 }
-
-const Container = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 90px;
-`;
-
-
-const FormContainer = styled.form`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 600px;
-    label {
-        padding: 15px;
-    }
-    input {
-        width: 350px;
-        height: 35px;
-        margin: 5px 15px;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        font-family: "Ubuntu", sans-serif;
-    }
-    
-    background-color: #3e3d53;
-
-    &:focus {
-      outline: 3px solid #f5508e;
-    }
-    @media (max-width: 992px) {
-      width: 100%;
-    }
-`;
-
-const SubmitBtn = styled.button`
-  width: 115px;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  margin: 15px;
-
-  font-size: 16px;
-  font-weight: bold;
-  color: #fff;
-
-  background-color: #f5508e;
-
-  transition: filter 0.1s ease;
-
-  &:hover {
-    cursor: pointer;
-
-    filter: brightness(0.85);
-  }
-
-  &:focus {
-    outline: 3px solid #dddbe6;
-  }
-`;

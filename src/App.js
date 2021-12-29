@@ -1,26 +1,19 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import { BrowserRouter } from "react-router-dom";
 import { UserProvider } from "./Contexts/User";
-import Login from "./Pages/Login";
-import Home from "./Pages/Home";
-
-import ResetCSS from "./global/styles/ResetCSS";
-import GlobalCSS from "./global/styles/GlobalCSS";
+import GlobalStyles from "./Global/styles/GlobalStyles";
+import { ToastContainer } from "react-toastify";
+import Pages from "./Pages";
 
 export default function App() {
-	return (
-		<UserProvider>
-			<ResetCSS />
-      		<GlobalCSS />
-			  
-			<BrowserRouter>
-				<Routes>
-					<Route path="/" element={<Login />}></Route>
-					<Route path="/home" element={<Home />}></Route>
-
-				</Routes>
-			</BrowserRouter>
-		</UserProvider>
-	);
+  return (
+    <>
+      <UserProvider>
+        <ToastContainer />
+        <GlobalStyles />
+        <BrowserRouter>
+          <Pages />
+        </BrowserRouter>
+      </UserProvider>
+    </>
+  );
 }

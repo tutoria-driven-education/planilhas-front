@@ -1,8 +1,6 @@
-import React from "react";
-
 export default function DrivenLogo (props) {
     function logoTheme() {
-      return props.theme === "light" ? "#fff" : "#f5508e";
+      return props.theme === "light" ? "var(--white-color)" : "var(--pink-color)";
     }
   
     return (
