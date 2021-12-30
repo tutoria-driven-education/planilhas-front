@@ -59,6 +59,12 @@ export default function Spreads() {
           .createSpreads(body)
           .then(() => {
             setDisable(false);
+            setFetchData({
+              linkSpreadsheetStudents: "",
+              linkSpreadsheetTemplate: "",
+              amountStudents: "",
+              className: "",
+            });
             Swal.fire("Planilhas geradas com sucesso!");
           })
           .catch(() => {
@@ -131,7 +137,12 @@ export default function Spreads() {
         </InputGroup>
         <SubmitButton disabled={disable} type="submit">
           {disable ? (
-            <Loader type="ThreeDots" color="var(--pink-color)" height={10} width={60} />
+            <Loader
+              type="ThreeDots"
+              color="var(--pink-color)"
+              height={10}
+              width={60}
+            />
           ) : (
             "Criar"
           )}

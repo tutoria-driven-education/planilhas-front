@@ -22,40 +22,52 @@ export default function Login() {
 
   function submitHandler(event) {
     event.preventDefault();
-    if (
-      fetchData.email !== process.env.REACT_APP_LOGIN ||
-      fetchData.password !== process.env.REACT_APP_PASSWORD
-    ) {
-      return toast("Campo do email ou senha não confere!");
+    if (fetchData.email === "") {
+      return toast("O campo do email está vazio!");
+    }
+    if (fetchData.password === "") {
+      return toast("O campo da senha está vazia!");
     }
     setDisable(true);
-    api.auth.getAuth().then((res) => {
-      setDisable(false);
-      window.open(`${res.data.link}`, "_blank");
-      Swal.fire({
-        title:
-          "Uma nova janela será aberta, caso apareça um aviso não se preocupe, clique em avançado e aceite as permissões que está sendo pedido, após autorizar volte aqui e cole o código 😁",
-        input: "text",
-        inputAttributes: {
-          autocapitalize: "off",
-        },
-        showCancelButton: true,
-        confirmButtonText: "Enviar código",
-        showLoaderOnConfirm: true,
-        preConfirm: (code) => {
-          api.auth.sendAuth(code).then((res) => {
-            const stringfyToken = JSON.stringify(res.data.token);
-            setUserData(stringfyToken);
-            history.push("/menu");
-          });
-        },
-        allowOutsideClick: () => !Swal.isLoading(),
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire("Acesso confirmado!");
+    api.auth
+      .getAuth(fetchData)
+      .then((res) => {
+        setDisable(false);
+        window.open(`${res.data.link}`, "_blank");
+        Swal.fire({
+          title:
+            "Uma nova janela será aberta, caso apareça um aviso não se preocupe, clique em avançado e aceite as permissões que está sendo pedido, após autorizar volte aqui e cole o código 😁",
+          input: "text",
+          inputAttributes: {
+            autocapitalize: "off",
+          },
+          showCancelButton: true,
+          confirmButtonText: "Enviar código",
+          showLoaderOnConfirm: true,
+          preConfirm: (code) => {
+            api.auth
+              .sendAuth(code)
+              .then((res) => {
+                Swal.fire("Acesso confirmado!");
+                const stringfyToken = JSON.stringify(res.data.token);
+                setUserData(stringfyToken);
+                history.push("/menu");
+              })
+              .catch((err) => {
+                return;
+              });
+          },
+          allowOutsideClick: () => !Swal.isLoading(),
+        });
+      })
+      .catch((err) => {
+        setDisable(false);
+        if (err.response.status === 401) {
+          return toast("Email ou senha não confere!");
+        } else if (err.response.status === 500) {
+          return toast("Avise a alguem que ocorreu esse error!");
         }
       });
-    });
   }
 
   return (

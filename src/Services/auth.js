@@ -1,10 +1,10 @@
 import api from "./api";
 
 export default class Auth {
-  getAuth() {
-    return api.get("/auth");
+  getAuth(fetchData) {
+    return api.post("/auth", fetchData);
   }
   sendAuth(code) {
-    return api.post("/auth", { code });
+    return api.post("/auth/token", { code });
   }
 }
