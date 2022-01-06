@@ -2,7 +2,8 @@ import { Switch, Route } from "react-router-dom";
 import Login from "./Login";
 import Menu from "./Menu";
 import Spreads from "./Spreads";
-import Presence from "./Presence";
+import NewClass from "./NewClass";
+import Register from "./Register";
 import { useContext } from "react";
 import UserContext from "../Contexts/User";
 import ConditionalRouter from "../Router/ConditionalRouter";
@@ -25,9 +26,15 @@ export default function Pages() {
       ></ConditionalRouter>
       <ConditionalRouter
         exact
-        path={"/presença"}
+        path={"/register"}
         check={ensureToken}
-        component={Presence}
+        component={Register}
+      ></ConditionalRouter>
+      <ConditionalRouter
+        exact
+        path={"/new-class"}
+        check={ensureToken}
+        component={NewClass}
       ></ConditionalRouter>
     </Switch>
   );

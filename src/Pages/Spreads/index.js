@@ -5,10 +5,9 @@ import useApi from "../../Hooks/useApi";
 import UserContext from "../../Contexts/User";
 import Swal from "sweetalert2";
 import {
-  LoginPageContent,
-  SubmitButton,
-  CancelButton,
-  LoginForm,
+  PageContent,
+  DecisionButton,
+  Form,
   InputGroup,
 } from "./components/spreadsWrapper";
 import { toast } from "react-toastify";
@@ -78,9 +77,9 @@ export default function Spreads() {
   }
 
   return (
-    <LoginPageContent>
+    <PageContent>
       <Navbar />
-      <LoginForm onSubmit={submitHandler}>
+      <Form onSubmit={submitHandler}>
         <InputGroup>
           <label>Template planilha principal</label>
           <input
@@ -135,7 +134,7 @@ export default function Spreads() {
             }
           ></input>
         </InputGroup>
-        <SubmitButton disabled={disable} type="submit">
+        <DecisionButton disabled={disable} type="submit">
           {disable ? (
             <Loader
               type="ThreeDots"
@@ -146,11 +145,11 @@ export default function Spreads() {
           ) : (
             "Criar"
           )}
-        </SubmitButton>
+        </DecisionButton>
         <Link to={"/menu"}>
-          <CancelButton disabled={disable}>Voltar</CancelButton>
+          <DecisionButton disabled={disable}>Voltar</DecisionButton>
         </Link>
-      </LoginForm>
-    </LoginPageContent>
+      </Form>
+    </PageContent>
   );
 }

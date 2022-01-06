@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SubmitButton = styled.button`
+export const DecisionButton = styled.button`
   width: 115px;
   padding: 10px;
   border: none;
@@ -25,7 +25,7 @@ export const SubmitButton = styled.button`
   }
 `;
 
-export const LoginPageContent = styled.div`
+export const PageContent = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
@@ -34,7 +34,7 @@ export const LoginPageContent = styled.div`
   justify-content: center;
 `;
 
-export const LoginForm = styled.form`
+export const Form = styled.form`
   padding: 55px 45px;
   border-radius: 15px;
   display: flex;

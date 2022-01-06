@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
 import DrivenLogo from "../../Assets/DrivenLogo";
 import {
-  LoginPageContent,
+  PageContent,
   Brand,
-  LoginForm,
+  Form,
   InputGroup,
-  SubmitButton,
+  DecisionButton,
 } from "./components/LoginWrapper";
 import useApi from "../../Hooks/useApi";
 import Swal from "sweetalert2";
@@ -71,11 +71,11 @@ export default function Login() {
   }
 
   return (
-    <LoginPageContent>
+    <PageContent>
       <Brand>
         <DrivenLogo theme={"light"} />
       </Brand>
-      <LoginForm onSubmit={submitHandler}>
+      <Form onSubmit={submitHandler}>
         <InputGroup>
           <label htmlFor="email">E-mail Driven</label>
           <input
@@ -103,8 +103,8 @@ export default function Login() {
             }
           ></input>
         </InputGroup>
-        <SubmitButton disabled={disable}>Entrar</SubmitButton>
-      </LoginForm>
-    </LoginPageContent>
+        <DecisionButton disabled={disable}>Entrar</DecisionButton>
+      </Form>
+    </PageContent>
   );
 }

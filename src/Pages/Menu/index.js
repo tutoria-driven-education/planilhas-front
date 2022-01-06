@@ -12,8 +12,11 @@ export default function Menu() {
           <Link to={"/planilhas"}>
             <button>Gerar planilhas</button>
           </Link>
-          <Link to={"/presença"}>
-            <button>Atualizar presença</button>
+          <Link to={"/register"}>
+            <button>Cadastrar novo usuário</button>
+          </Link>
+          <Link to={"/new-class"}>
+            <button>Criar nova turma</button>
           </Link>
         </Buttons>
       </Options>
