@@ -29,16 +29,12 @@ export default function NewClass() {
     </Select>
   );
 
-  function decreaseTutorAmount(event) {
+  function handleTutorAmount(event, boolean) {
     event.preventDefault();
-    amountTutor > 1 ? setAmountTutor(amountTutor - 1) : "";
+    if(boolean) setAmountTutor(amountTutor + 1);
+    if(!boolean) amountTutor > 1 ? setAmountTutor(amountTutor - 1) : "";
   }
-
-  function increaseTutorAmount(event) {
-    event.preventDefault();
-    setAmountTutor(amountTutor + 1);
-  }
-
+  
   return (
     <PageContent>
       <Navbar />
@@ -80,16 +76,16 @@ export default function NewClass() {
           </Select>
         </SelectHolder>
         <TutorHolder>
-          <button onClick={(event) => decreaseTutorAmount(event)}>-</button>
+          <button onClick={(event) => handleTutorAmount(event, false)}>-</button>
           <p>Tutores</p>
-          <button onClick={(event) => increaseTutorAmount(event)}>+</button>
+          <button onClick={(event) => handleTutorAmount(event, true)}>+</button>
         </TutorHolder>
         {Array(amountTutor)
           .fill(createdTutorElement)
           .map((element, index) => {
             return <div key={index}>{element}</div>;
           })}
-        <DecisionButton type="submit">Atualizar</DecisionButton>
+        <DecisionButton type="submit">Criar</DecisionButton>
         <Link to={"/menu"}>
           <DecisionButton>Voltar</DecisionButton>
         </Link>
