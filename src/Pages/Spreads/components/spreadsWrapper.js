@@ -73,7 +73,6 @@ export const InputGroup = styled.div`
     @media (max-width: 992px) {
       width: 100%;
     }
-    
   }
   :disabled {
     cursor: default;

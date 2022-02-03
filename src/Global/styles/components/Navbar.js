@@ -5,7 +5,7 @@ import DrivenLogo from "../../../Assets/DrivenLogo.js";
 
 export default function Navbar() {
   const history = useHistory();
-  
+
   function logout() {
     localStorage.removeItem("token");
     history.push("/");

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useEffect } from "react/cjs/react.development";
+import { useEffect } from "react";
+import Loading from "../../Global/styles/components/Loading";
 import Navbar from "../../Global/styles/components/Navbar";
 import useApi from "../../Hooks/useApi";
 import {
@@ -13,16 +14,15 @@ import {
   TutorHolder,
   TutorsSelect,
 } from "./components/newClassWrapper";
-import Loader from "react-loader-spinner";
 
 export default function NewClass() {
   const api = useApi();
   const [isLoading, setIsLoading] = useState(true);
   const [disable, setDisable] = useState(false);
   const [result, setResult] = useState({
-    tutores: [],
-    instrutores: [],
-    facilitadores: [],
+    tutors: [],
+    instrutors: [],
+    facilitators: [],
   });
   const [fetchData, setFetchData] = useState({
     className: "",
@@ -36,26 +36,26 @@ export default function NewClass() {
       const response = data.userList;
       response.forEach((eachResponse) => {
         switch (eachResponse.UserGroup.name) {
-          case "Tutores":
-            setResult((current) => {
-              current?.tutores.push(eachResponse);
-              return current;
-            });
-            break;
-          case "Instrutores":
-            setResult((current) => {
-              current?.instrutores.push(eachResponse);
-              return current;
-            });
-            break;
-          case "Facilitadores":
-            setResult((current) => {
-              current?.facilitadores.push(eachResponse);
-              return current;
-            });
-            break;
-          default:
-            break;
+        case "Tutores":
+          setResult((current) => {
+            current?.tutors.push(eachResponse);
+            return current;
+          });
+          break;
+        case "Instrutores":
+          setResult((current) => {
+            current?.instrutors.push(eachResponse);
+            return current;
+          });
+          break;
+        case "Facilitadores":
+          setResult((current) => {
+            current?.facilitators.push(eachResponse);
+            return current;
+          });
+          break;
+        default:
+          break;
         }
       });
       setResult({ ...result });
@@ -63,7 +63,7 @@ export default function NewClass() {
     });
   }, []);
 
-  const options = result?.tutores.map((option) => {
+  const options = result?.tutors.map((option) => {
     return { value: option.id, label: option.name };
   });
 
@@ -74,25 +74,17 @@ export default function NewClass() {
     setFetchData({ ...fetchData, tutores: arrayOfTutors });
   }
 
-  if (isLoading)
-    return (
-      <PageContent>
-        <Navbar />
-        <Form>
-          <Loader
-            type="TailSpin"
-            color="var(--pink-color)"
-            height={100}
-            width={100}
-          />
-        </Form>
-      </PageContent>
-    );
+  function submitHandler(event) {
+    event.preventDefault();
+    setDisable(true);
+  }
+
+  if (isLoading) return <Loading />;
 
   return (
     <PageContent>
       <Navbar />
-      <Form>
+      <Form onSubmit={submitHandler}>
         <InputGroup>
           <label>Nome da turma</label>
           <input
@@ -108,6 +100,7 @@ export default function NewClass() {
         <SelectHolder>
           <p>Instrutor(a)</p>
           <Select
+            disabled={disable}
             onChange={(event) =>
               setFetchData({
                 ...fetchData,
@@ -116,7 +109,7 @@ export default function NewClass() {
             }
           >
             <option value={""}>Selecione o(a) instrutor(a)</option>
-            {result.instrutores.map((instrutor) => (
+            {result.instrutors.map((instrutor) => (
               <option value={instrutor.id} key={instrutor.id}>
                 {instrutor.name}
               </option>
@@ -126,6 +119,7 @@ export default function NewClass() {
         <SelectHolder>
           <p>Facilitador(a)</p>
           <Select
+            disabled={disable}
             onChange={(event) =>
               setFetchData({
                 ...fetchData,
@@ -134,9 +128,9 @@ export default function NewClass() {
             }
           >
             <option value={""}>Selecione o(a) facilitador(a)</option>
-            {result.facilitadores.map((facilitador) => (
-              <option value={facilitador.id} key={facilitador.id}>
-                {facilitador.name}
+            {result.facilitators.map((facilitator) => (
+              <option value={facilitator.id} key={facilitator.id}>
+                {facilitator.name}
               </option>
             ))}
           </Select>
@@ -145,6 +139,7 @@ export default function NewClass() {
           <p>Tutores</p>
         </TutorHolder>
         <TutorsSelect
+          isDisabled={disable}
           onChange={(event) => handleTutorSelection(event)}
           options={options}
           isMulti

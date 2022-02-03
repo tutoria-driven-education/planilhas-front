@@ -7,6 +7,7 @@ function useLocalStorage(key, initialValue) {
 
       return storedItem ? JSON.parse(storedItem) : initialValue;
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err);
       return initialValue;
     }
@@ -21,6 +22,7 @@ function useLocalStorage(key, initialValue) {
 
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err);
     }
   };

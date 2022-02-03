@@ -82,10 +82,13 @@ export const TutorsSelect = styled(SelectLib)`
   outline: none;
   border-radius: 5px;
   color: var(--pink-color);
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin-bottom: 10px;
   button {
     width: 115px;
+  }
+  div {
+    background-color: ${(props) => (props.isDisabled ? "black" : "")};
   }
   @media (max-width: 992px) {
     width: 100%;

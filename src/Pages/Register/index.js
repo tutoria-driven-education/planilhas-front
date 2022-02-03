@@ -11,6 +11,7 @@ import {
 } from "./components/registerWrapper";
 import useApi from "../../Hooks/useApi";
 import { toast } from "react-toastify";
+import Loading from "../../Global/styles/components/Loading";
 
 export default function Register() {
   const [disable, setDisable] = useState(false);
@@ -21,7 +22,6 @@ export default function Register() {
     email: "",
     userGroupId: "",
   });
-  console.log(fetchData);
   const api = useApi();
   const history = useHistory();
 
@@ -57,20 +57,7 @@ export default function Register() {
       });
   }
 
-  if (isLoading)
-    return (
-      <PageContent>
-        <Navbar />
-        <Form>
-          <Loader
-            type="TailSpin"
-            color="var(--pink-color)"
-            height={100}
-            width={100}
-          />
-        </Form>
-      </PageContent>
-    );
+  if (isLoading) return <Loading />;
 
   return (
     <PageContent>
