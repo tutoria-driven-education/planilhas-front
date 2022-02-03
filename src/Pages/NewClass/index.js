@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react/cjs/react.development";
 import Navbar from "../../Global/styles/components/Navbar";
+import useApi from "../../Hooks/useApi";
 import {
   PageContent,
   Form,
@@ -9,32 +11,84 @@ import {
   SelectHolder,
   InputGroup,
   TutorHolder,
+  TutorsSelect,
 } from "./components/newClassWrapper";
+import Loader from "react-loader-spinner";
 
 export default function NewClass() {
-  const [amountTutor, setAmountTutor] = useState(1);
-  const [fetchData, setFetchData] = useState({ className: "", instrutor: "", facilitador: "", tutores: [] });
+  const api = useApi();
+  const [isLoading, setIsLoading] = useState(true);
+  const [disable, setDisable] = useState(false);
+  const [result, setResult] = useState({
+    tutores: [],
+    instrutores: [],
+    facilitadores: [],
+  });
+  const [fetchData, setFetchData] = useState({
+    className: "",
+    instrutor: "",
+    facilitador: "",
+    tutores: [],
+  });
 
-  const createdTutorElement = (
-    <Select>
-      <option>Escolha o tutor</option>
-      <option>Guga</option>
-      <option>Kuritza</option>
-      <option>Yann</option>
-      <option>Marcus</option>
-      <option>Leo</option>
-      <option>Gabriel</option>
-      <option>Thiago</option>
-      <option>Edu</option>
-    </Select>
-  );
+  useEffect(() => {
+    api.user.getAllUser().then(({ data }) => {
+      const response = data.userList;
+      response.forEach((eachResponse) => {
+        switch (eachResponse.UserGroup.name) {
+          case "Tutores":
+            setResult((current) => {
+              current?.tutores.push(eachResponse);
+              return current;
+            });
+            break;
+          case "Instrutores":
+            setResult((current) => {
+              current?.instrutores.push(eachResponse);
+              return current;
+            });
+            break;
+          case "Facilitadores":
+            setResult((current) => {
+              current?.facilitadores.push(eachResponse);
+              return current;
+            });
+            break;
+          default:
+            break;
+        }
+      });
+      setResult({ ...result });
+      setIsLoading(false);
+    });
+  }, []);
 
-  function handleTutorAmount(event, boolean) {
-    event.preventDefault();
-    if(boolean) setAmountTutor(amountTutor + 1);
-    if(!boolean) amountTutor > 1 ? setAmountTutor(amountTutor - 1) : "";
+  const options = result?.tutores.map((option) => {
+    return { value: option.id, label: option.name };
+  });
+
+  function handleTutorSelection(event) {
+    const arrayOfTutors = event.map((eachTutor) => {
+      return eachTutor.value;
+    });
+    setFetchData({ ...fetchData, tutores: arrayOfTutors });
   }
-  
+
+  if (isLoading)
+    return (
+      <PageContent>
+        <Navbar />
+        <Form>
+          <Loader
+            type="TailSpin"
+            color="var(--pink-color)"
+            height={100}
+            width={100}
+          />
+        </Form>
+      </PageContent>
+    );
+
   return (
     <PageContent>
       <Navbar />
@@ -42,49 +96,59 @@ export default function NewClass() {
         <InputGroup>
           <label>Nome da turma</label>
           <input
-            // disabled={disable}
-            // value={fetchData.name}
+            disabled={disable}
+            value={fetchData.name}
             type="text"
             placeholder="Nome da turma"
-            // onChange={(event) =>
-            //   setFetchData({ ...fetchData, name: event.target.value })
-            // }
+            onChange={(event) =>
+              setFetchData({ ...fetchData, className: event.target.value })
+            }
           ></input>
         </InputGroup>
         <SelectHolder>
           <p>Instrutor(a)</p>
-          <Select>
-            <option value="">teste</option>
-            <option value="">teste1</option>
-            <option value="">teste2</option>
-            <option value="">teste3</option>
-            <option value="">teste4</option>
-            <option value="">teste5</option>
-            <option value="">teste6</option>
+          <Select
+            onChange={(event) =>
+              setFetchData({
+                ...fetchData,
+                instrutor: parseInt(event.target.value),
+              })
+            }
+          >
+            <option value={""}>Selecione o(a) instrutor(a)</option>
+            {result.instrutores.map((instrutor) => (
+              <option value={instrutor.id} key={instrutor.id}>
+                {instrutor.name}
+              </option>
+            ))}
           </Select>
         </SelectHolder>
         <SelectHolder>
           <p>Facilitador(a)</p>
-          <Select>
-            <option value="">teste</option>
-            <option value="">teste1</option>
-            <option value="">teste2</option>
-            <option value="">teste3</option>
-            <option value="">teste4</option>
-            <option value="">teste5</option>
-            <option value="">teste6</option>
+          <Select
+            onChange={(event) =>
+              setFetchData({
+                ...fetchData,
+                facilitador: parseInt(event.target.value),
+              })
+            }
+          >
+            <option value={""}>Selecione o(a) facilitador(a)</option>
+            {result.facilitadores.map((facilitador) => (
+              <option value={facilitador.id} key={facilitador.id}>
+                {facilitador.name}
+              </option>
+            ))}
           </Select>
         </SelectHolder>
         <TutorHolder>
-          <button onClick={(event) => handleTutorAmount(event, false)}>-</button>
           <p>Tutores</p>
-          <button onClick={(event) => handleTutorAmount(event, true)}>+</button>
         </TutorHolder>
-        {Array(amountTutor)
-          .fill(createdTutorElement)
-          .map((element, index) => {
-            return <div key={index}>{element}</div>;
-          })}
+        <TutorsSelect
+          onChange={(event) => handleTutorSelection(event)}
+          options={options}
+          isMulti
+        />
         <DecisionButton type="submit">Criar</DecisionButton>
         <Link to={"/menu"}>
           <DecisionButton>Voltar</DecisionButton>

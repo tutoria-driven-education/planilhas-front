@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import SelectLib from "react-select";
 
 export const DecisionButton = styled.button`
   width: 115px;
@@ -25,7 +26,7 @@ export const PageContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 100px;
+  padding-top: 150px;
   margin-bottom: 75px;
 `;
 
@@ -66,6 +67,22 @@ export const Select = styled.select`
   padding-left: 12px;
   color: var(--pink-color);
   font-size: 1rem;
+  margin-bottom: 10px;
+  button {
+    width: 115px;
+  }
+  @media (max-width: 992px) {
+    width: 100%;
+  }
+`;
+
+export const TutorsSelect = styled(SelectLib)`
+  width: 100%;
+  height: 40px;
+  outline: none;
+  border-radius: 5px;
+  color: var(--pink-color);
+  font-size: 1.1rem;
   margin-bottom: 10px;
   button {
     width: 115px;
