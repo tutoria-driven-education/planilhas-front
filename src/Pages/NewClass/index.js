@@ -14,9 +14,12 @@ import {
   TutorHolder,
   TutorsSelect,
 } from "./components/newClassWrapper";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function NewClass() {
   const api = useApi();
+  const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
   const [disable, setDisable] = useState(false);
   const [result, setResult] = useState({
@@ -26,9 +29,9 @@ export default function NewClass() {
   });
   const [fetchData, setFetchData] = useState({
     className: "",
-    instrutor: "",
-    facilitador: "",
-    tutores: [],
+    instructorId: "",
+    facilitatorId: "",
+    tutors: [],
   });
 
   useEffect(() => {
@@ -71,12 +74,24 @@ export default function NewClass() {
     const arrayOfTutors = event.map((eachTutor) => {
       return eachTutor.value;
     });
-    setFetchData({ ...fetchData, tutores: arrayOfTutors });
+    setFetchData({ ...fetchData, tutors: arrayOfTutors });
   }
 
   function submitHandler(event) {
     event.preventDefault();
     setDisable(true);
+    api.team
+      .createTeam(fetchData)
+      .then(() => {
+        toast("Turma criada com sucesso!");
+        setDisable(false);
+        history.psuh("/menu");
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+        setDisable(false);
+      });
   }
 
   if (isLoading) return <Loading />;
@@ -104,7 +119,7 @@ export default function NewClass() {
             onChange={(event) =>
               setFetchData({
                 ...fetchData,
-                instrutor: parseInt(event.target.value),
+                instructorId: parseInt(event.target.value),
               })
             }
           >
@@ -123,7 +138,7 @@ export default function NewClass() {
             onChange={(event) =>
               setFetchData({
                 ...fetchData,
-                facilitador: parseInt(event.target.value),
+                facilitatorId: parseInt(event.target.value),
               })
             }
           >
