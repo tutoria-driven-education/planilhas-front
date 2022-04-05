@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useState } from "react";
 
 function useLocalStorage(key, initialValue) {
@@ -14,7 +15,7 @@ function useLocalStorage(key, initialValue) {
 
   const setValue = (value) => {
     try {
-      if(!value) {
+      if (!value) {
         setStoredValue(null);
         localStorage.removeItem("token");
         return;

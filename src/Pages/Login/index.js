@@ -53,7 +53,7 @@ export default function Login() {
                 setUserData(stringfyToken);
                 history.push("/menu");
               })
-              .catch((err) => {
+              .catch((_err) => {
                 return;
               });
           },
