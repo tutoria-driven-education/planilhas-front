@@ -16,9 +16,10 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 ## 💻 Pré-requisitos
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
-<!---Estes são apenas requisitos de exemplo. Adicionar, duplicar ou remover conforme necessário--->
-* Você instalou a versão mais recente do nodejs e npm
-* Você leu [Documentação do projeto](https://tender-help-4e4.notion.site/Documenta-o-Manipula-o-de-Planilhas-b8d93b4b4e144b269cdc58f9a555bf85).
+
+* Tenha a versão mais recente do nodejs e npm
+* Instale o backend do projeto [aqui](https://github.com/tutoria-driven-education/planilhas-api)
+* Ler [Documentação do projeto](https://tender-help-4e4.notion.site/Documenta-o-Manipula-o-de-Planilhas-b8d93b4b4e144b269cdc58f9a555bf85).
 
 ## 🚀 Instalando Driven planilhas
 
@@ -43,7 +44,7 @@ npm run start
 Após isso, será aberta uma aba com a aplicação em funcionamento
 
 ## 📫 Contribuindo para Driven planilhas
-<!---Se o seu README for longo ou se você tiver algum processo ou etapas específicas que deseja que os contribuidores sigam, considere a criação de um arquivo CONTRIBUTING.md separado--->
+
 Para contribuir com Driven planilhas, siga estas etapas:
 
 1. Bifurque este repositório.
