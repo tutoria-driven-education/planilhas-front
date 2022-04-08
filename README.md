@@ -26,12 +26,20 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 Para instalar o Driven planilhas, siga estas etapas:
 
 Linux e macOS:
+
+Passo 1: Clone o repositório
 ```
 git clone git@github.com:tutoria-driven-education/planilhas-front.git
-cd planilhas-front
-npm i
-
 ```
+Passo 2: Entre no diretório do projeto
+```
+cd planilhas-front
+```
+Passo 3: Instale as dependências do projeto
+```
+npm i
+```
+
 
 ## ☕ Usando Driven planilhas
 
@@ -65,7 +73,7 @@ Agradecemos às seguintes pessoas que contribuíram para este projeto:
       <a href="#">
         <img src="https://avatars.githubusercontent.com/u/81389063?v=4" width="100px;" alt="Foto do Iuri Silva no GitHub"/><br>
         <sub>
-          <b>Yann Mello</b>
+          <b>Yann Melo</b>
         </sub>
       </a>
     </td>
