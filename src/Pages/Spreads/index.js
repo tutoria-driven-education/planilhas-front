@@ -40,6 +40,7 @@ export default function Spreads() {
     const body = {
       ...fetchData,
       token: parsedUserData,
+      timeout: 1000 * 60 * 20 //20 minutes
     };
 
     Swal.fire({
