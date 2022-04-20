@@ -92,3 +92,27 @@ export const InputGroup = styled.div`
     width: 100%;
   }
 `;
+
+export const CheckboxGroup = styled.div`
+  user-select: none;
+  label {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--white-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  input {
+    width: 20px;
+    height: 20px;
+    margin: 0px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  @media (max-width: 992px) {
+    width: 100%;
+  }
+`;

@@ -2,7 +2,7 @@ import { Switch, Route } from "react-router-dom";
 import Login from "./Login";
 import Menu from "./Menu";
 import Spreads from "./Spreads";
-import Presence from "./Presence";
+import Update from "./Update";
 import { useContext } from "react";
 import UserContext from "../Contexts/User";
 import ConditionalRouter from "../Router/ConditionalRouter";
@@ -25,9 +25,9 @@ export default function Pages() {
       ></ConditionalRouter>
       <ConditionalRouter
         exact
-        path={"/presença"}
+        path={"/atualizar"}
         check={ensureToken}
-        component={Presence}
+        component={Update}
       ></ConditionalRouter>
     </Switch>
   );

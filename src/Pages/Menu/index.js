@@ -12,8 +12,8 @@ export default function Menu() {
           <Link to={"/planilhas"}>
             <button>Gerar planilhas</button>
           </Link>
-          <Link to={"/presença"}>
-            <button>Atualizar presença</button>
+          <Link to={"/atualizar"}>
+            <button>Atualizar planilha</button>
           </Link>
         </Buttons>
       </Options>
