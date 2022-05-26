@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { InputInformation } from "./components/InputInformation";
 
 export default function Login() {
   const {
@@ -75,38 +76,23 @@ export default function Login() {
         <DrivenLogo theme={"light"} />
       </Brand>
       <LoginForm onSubmit={handleSubmit(submitHandler)}>
-        <InputGroup>
-          <label htmlFor="email">E-mail Driven</label>
-          <input
-            disabled={disable}
-            id="email"
-            type="text"
-            placeholder="Digite o seu e-mail Driven"
-            {...register("email", { required: "O campo do email está vazio!" })}
-          ></input>
-          <ErrorMessage
-            errors={errors}
-            name="email"
-            render={({ message }) => <span>{message}</span>}
-          />
-        </InputGroup>
-        <InputGroup>
-          <label htmlFor="password">Senha</label>
-          <input
-            disabled={disable}
-            id="password"
-            type="current-password"
-            placeholder="Digite a sua senha"
-            {...register("password", {
-              required: "O campo do senha está vazio!",
-            })}
-          ></input>
-          <ErrorMessage
-            errors={errors}
-            name="password"
-            render={({ message }) => <span>{message}</span>}
-          />
-        </InputGroup>
+        {InputInformation.map((info, index) => (
+          <InputGroup key={index}>
+            <label htmlFor={info.htmlFor}>{info.label}</label>
+            <input
+              id={info.id}
+              type={info.type}
+              disabled={disable}
+              placeholder={info.placeholder}
+              {...register(`${info.htmlFor}`, { required: info.error })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name={info.htmlFor}
+              render={({ message }) => <span>{message}</span>}
+            />
+          </InputGroup>
+        ))}
         <SubmitButton disabled={disable}>Entrar</SubmitButton>
       </LoginForm>
     </LoginPageContent>
