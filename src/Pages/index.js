@@ -1,46 +1,21 @@
-import { Switch, Route } from "react-router-dom";
+import { Routes as Switch, Route } from "react-router-dom";
 import Login from "./Login";
 import Menu from "./Menu";
 import Spreads from "./Spreads";
 import Update from "./Update";
-import { useContext } from "react";
-import UserContext from "../Contexts/User";
-import ConditionalRouter from "../Router/ConditionalRouter";
+import SharedLayout from "./SharedLayout";
+import ErrorMessage from "./ErrorMessage";
 
 export default function Pages() {
   return (
     <Switch>
-      <Route exact path={"/"} component={Login} />
-      <ConditionalRouter
-        path="/menu"
-        exact
-        check={ensureToken}
-        component={Menu}
-      ></ConditionalRouter>
-      <ConditionalRouter
-        exact
-        path={"/planilhas"}
-        check={ensureToken}
-        component={Spreads}
-      ></ConditionalRouter>
-      <ConditionalRouter
-        exact
-        path={"/atualizar"}
-        check={ensureToken}
-        component={Update}
-      ></ConditionalRouter>
+      <Route path={"/"} element={<SharedLayout />}>
+        <Route index element={<Login />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/planilhas" element={<Spreads />} />
+        <Route path="/atualizar" element={<Update />} />
+        <Route path="*" element={<ErrorMessage />} />
+      </Route>
     </Switch>
   );
-}
-
-function ensureToken() {
-  const { userData } = useContext(UserContext);
-  const parsedUserData = JSON.parse(userData);
-  return [
-    {
-      to: "/",
-      check: () => parsedUserData?.access_token,
-      message: "Por favor, faça login!",
-    },
-  ];
 }

@@ -1,17 +1,17 @@
 import { useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IoEnterOutline } from "react-icons/io5";
-import DrivenLogo from "../../../Assets/DrivenLogo.js";
-import UserContext from "../../../Contexts/User.js";
+import DrivenLogo from "../../Assets/DrivenLogo.js";
+import UserContext from "../../Contexts/User.js";
 
 export default function Navbar() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { setUserData } = useContext(UserContext);
 
   function logout() {
     setUserData(null);
-    history.push("/");
+    navigate("/");
   }
 
   return (

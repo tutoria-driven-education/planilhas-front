@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../../Contexts/User";
-import Navbar from "../../Global/styles/components/Navbar";
 import {
   LoginPageContent,
   LoginForm,
@@ -77,7 +76,6 @@ export default function Update() {
 
   return (
     <LoginPageContent>
-      <Navbar />
       <LoginForm onSubmit={submitHandler}>
         <InputGroup>
           <label>Link da pasta dos alunos</label>

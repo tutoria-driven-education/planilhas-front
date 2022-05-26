@@ -20,7 +20,6 @@ function useLocalStorage(key, initialValue) {
         localStorage.removeItem("token");
         return;
       }
-
       const valueToStore =
         value instanceof Function ? value(storedValue) : value;
 

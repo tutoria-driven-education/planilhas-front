@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import { UserProvider } from "./Contexts/User";
-import GlobalStyles from "./Global/styles/GlobalStyles";
+import GlobalStyles from "./Components/GlobalStyles";
 import { ToastContainer } from "react-toastify";
 import Pages from "./Pages";
 

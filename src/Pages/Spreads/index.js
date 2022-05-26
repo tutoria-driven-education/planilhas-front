@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
-import Navbar from "../../Global/styles/components/Navbar";
 import useApi from "../../Hooks/useApi";
 import UserContext from "../../Contexts/User";
 import Swal from "sweetalert2";
@@ -80,7 +79,6 @@ export default function Spreads() {
 
   return (
     <LoginPageContent>
-      <Navbar />
       <LoginForm onSubmit={submitHandler}>
         <InputGroup>
           <label>Template planilha principal</label>

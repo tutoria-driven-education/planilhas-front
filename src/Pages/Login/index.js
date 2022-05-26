@@ -10,7 +10,7 @@ import {
 import useApi from "../../Hooks/useApi";
 import Swal from "sweetalert2";
 import UserContext from "../../Contexts/User";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function Login() {
@@ -18,7 +18,7 @@ export default function Login() {
   const [disable, setDisable] = useState(false);
   const { setUserData } = useContext(UserContext);
   const api = useApi();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   function submitHandler(event) {
     event.preventDefault();
@@ -51,7 +51,7 @@ export default function Login() {
                 Swal.fire("Acesso confirmado!");
                 const stringfyToken = JSON.stringify(res.data.token);
                 setUserData(stringfyToken);
-                history.push("/menu");
+                navigate("/menu");
               })
               .catch((_err) => {
                 return;
