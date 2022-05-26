@@ -12,25 +12,24 @@ import Swal from "sweetalert2";
 import UserContext from "../../Contexts/User";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 
 export default function Login() {
-  const [fetchData, setFetchData] = useState({ email: "", password: "" });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [disable, setDisable] = useState(false);
   const { setUserData } = useContext(UserContext);
   const api = useApi();
   const navigate = useNavigate();
 
-  function submitHandler(event) {
-    event.preventDefault();
-    if (fetchData.email === "") {
-      return toast("O campo do email está vazio!");
-    }
-    if (fetchData.password === "") {
-      return toast("O campo da senha está vazia!");
-    }
+  function submitHandler(data) {
     setDisable(true);
     api.auth
-      .getAuth(fetchData)
+      .getAuth(data)
       .then((res) => {
         setDisable(false);
         window.open(`${res.data.link}`, "_blank");
@@ -75,33 +74,38 @@ export default function Login() {
       <Brand>
         <DrivenLogo theme={"light"} />
       </Brand>
-      <LoginForm onSubmit={submitHandler}>
+      <LoginForm onSubmit={handleSubmit(submitHandler)}>
         <InputGroup>
           <label htmlFor="email">E-mail Driven</label>
           <input
             disabled={disable}
-            value={fetchData.email}
             id="email"
             type="text"
             placeholder="Digite o seu e-mail Driven"
-            spellCheck="false"
-            onChange={(event) =>
-              setFetchData({ ...fetchData, email: event.target.value })
-            }
+            {...register("email", { required: "O campo do email está vazio!" })}
           ></input>
+          <ErrorMessage
+            errors={errors}
+            name="email"
+            render={({ message }) => <span>{message}</span>}
+          />
         </InputGroup>
         <InputGroup>
           <label htmlFor="password">Senha</label>
           <input
             disabled={disable}
-            value={fetchData.password}
             id="password"
-            type="password"
+            type="current-password"
             placeholder="Digite a sua senha"
-            onChange={(event) =>
-              setFetchData({ ...fetchData, password: event.target.value })
-            }
+            {...register("password", {
+              required: "O campo do senha está vazio!",
+            })}
           ></input>
+          <ErrorMessage
+            errors={errors}
+            name="password"
+            render={({ message }) => <span>{message}</span>}
+          />
         </InputGroup>
         <SubmitButton disabled={disable}>Entrar</SubmitButton>
       </LoginForm>

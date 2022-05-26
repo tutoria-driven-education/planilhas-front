@@ -83,4 +83,8 @@ export const InputGroup = styled.div`
   @media (max-width: 992px) {
     width: 100%;
   }
+  span {
+    padding-top: 5px;
+    color: #fff;
+  }
 `;
