@@ -20,8 +20,16 @@ export default function Login() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
   const [disable, setDisable] = useState(false);
   const { setUserData } = useContext(UserContext);
   const api = useApi();
@@ -62,6 +70,10 @@ export default function Login() {
       })
       .catch((err) => {
         setDisable(false);
+        reset({
+          email: "",
+          password: "",
+        });
         if (err.response.status === 401) {
           return toast("Email ou senha não confere!");
         } else if (err.response.status === 500) {
