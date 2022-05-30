@@ -11,7 +11,7 @@ export const InputInformation = [
     label: "Senha",
     htmlFor: "password",
     id: "password",
-    type: "current-password",
+    type: "password",
     placeholder: "Digite a sua senha",
     error: "O campo do senha está vazio!",
   },

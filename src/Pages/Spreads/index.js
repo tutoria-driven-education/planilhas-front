@@ -9,37 +9,36 @@ import {
   CancelButton,
   LoginForm,
   InputGroup,
-} from "./components/spreadsWrapper";
-import { toast } from "react-toastify";
+} from "./components/SpreadsWrapper";
 import Loader from "react-loader-spinner";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
+import { InputInformation } from "./components/InputInformation";
 
 export default function Spreads() {
   const { userData } = useContext(UserContext);
   const [disable, setDisable] = useState(false);
-  const [fetchData, setFetchData] = useState({
-    linkSpreadsheetStudents: "",
-    linkSpreadsheetTemplate: "",
-    amountStudents: "",
-    className: "",
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      linkSpreadsheetStudents: "",
+      linkSpreadsheetTemplate: "",
+      amountStudents: "",
+      className: "",
+    },
   });
   const api = useApi();
 
-  function submitHandler(event) {
-    event.preventDefault();
-    if (
-      fetchData.linkSpreadsheetStudents === "" ||
-      fetchData.linkSpreadsheetTemplate === "" ||
-      fetchData.amountStudents === "" ||
-      fetchData.className === ""
-    ) {
-      return toast("Algum campo está vázio!");
-    }
-
+  function submitHandler(data) {
     const parsedUserData = JSON.parse(userData);
     const body = {
-      ...fetchData,
+      ...data,
       token: parsedUserData,
-      timeout: 1000 * 60 * 20 //20 minutes
+      timeout: 1000 * 60 * 20, //20 minutes
     };
 
     Swal.fire({
@@ -59,16 +58,16 @@ export default function Spreads() {
           .createSpreads(body)
           .then(() => {
             setDisable(false);
-            setFetchData({
+            Swal.fire("Planilhas geradas com sucesso!");
+          })
+          .catch(() => {
+            setDisable(false);
+            reset({
               linkSpreadsheetStudents: "",
               linkSpreadsheetTemplate: "",
               amountStudents: "",
               className: "",
             });
-            Swal.fire("Planilhas geradas com sucesso!");
-          })
-          .catch(() => {
-            setDisable(false);
             Swal.fire(
               "Ocorreu um erro, verifique o drive ou as planilhas enviadas!"
             );
@@ -79,61 +78,24 @@ export default function Spreads() {
 
   return (
     <LoginPageContent>
-      <LoginForm onSubmit={submitHandler}>
-        <InputGroup>
-          <label>Template planilha principal</label>
-          <input
-            disabled={disable}
-            value={fetchData.linkSpreadsheetStudents}
-            type="url"
-            placeholder="Link da planilha"
-            onChange={(event) =>
-              setFetchData({
-                ...fetchData,
-                linkSpreadsheetStudents: event.target.value,
-              })
-            }
-          ></input>
-        </InputGroup>
-        <InputGroup>
-          <label>Template planilha aluno</label>
-          <input
-            disabled={disable}
-            value={fetchData.linkSpreadsheetTemplate}
-            type="url"
-            placeholder="Link da planilha aluno"
-            onChange={(event) =>
-              setFetchData({
-                ...fetchData,
-                linkSpreadsheetTemplate: event.target.value,
-              })
-            }
-          ></input>
-        </InputGroup>
-        <InputGroup>
-          <label>Nome da pasta a ser criada</label>
-          <input
-            disabled={disable}
-            value={fetchData.className}
-            type="text"
-            placeholder="Nome da pasta que será gerada"
-            onChange={(event) =>
-              setFetchData({ ...fetchData, className: event.target.value })
-            }
-          ></input>
-        </InputGroup>
-        <InputGroup>
-          <label>Quantidade de alunos na planilha</label>
-          <input
-            disabled={disable}
-            value={fetchData.amountStudents}
-            type="text"
-            placeholder="Quantidade de alunos presente na planilha"
-            onChange={(event) =>
-              setFetchData({ ...fetchData, amountStudents: event.target.value })
-            }
-          ></input>
-        </InputGroup>
+      <LoginForm onSubmit={handleSubmit(submitHandler)}>
+        {InputInformation.map((info, index) => (
+          <InputGroup key={index}>
+            <label htmlFor={info.htmlFor}>{info.label}</label>
+            <input
+              id={info.id}
+              type={info.type}
+              disabled={disable}
+              placeholder={info.placeholder}
+              {...register(`${info.htmlFor}`, { required: info.error })}
+            ></input>
+            <ErrorMessage
+              errors={errors}
+              name={info.htmlFor}
+              render={({ message }) => <span>{message}</span>}
+            />
+          </InputGroup>
+        ))}
         <SubmitButton disabled={disable} type="submit">
           {disable ? (
             <Loader

@@ -9,33 +9,41 @@ import {
   SubmitButton,
   CancelButton,
   CheckboxGroup,
-} from "./components/updateWrapper";
+} from "./components/UpdateWrapper";
 import useApi from "../../Hooks/useApi";
 import Swal from "sweetalert2";
-import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
+import {
+  InputInformation,
+  CheckBoxInformation,
+} from "./components/InputInformation";
 
 export default function Update() {
   const api = useApi();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      folderLinkSpreadsheet: "",
+      linkSpreadsheetTemplate: "",
+      spreadsheetPageName: "",
+    },
+  });
   const { userData } = useContext(UserContext);
   const [disable, setDisable] = useState(false);
   const [fetchData, setFetchData] = useState({
-    folderLinkSpreadsheet: "",
-    linkSpreadsheetTemplate: "",
-    spreadsheetPageName: "",
     isProtected: false,
+    isHidden: false,
   });
 
-  function submitHandler(event) {
-    event.preventDefault();
-    if (
-      fetchData.folderLinkSpreadsheet === "" ||
-      fetchData.linkSpreadsheetTemplate === "" ||
-      fetchData.spreadsheetPageName === ""
-    ) {
-      return toast("Algum campo está vázio!");
-    }
+  function submitHandler(data) {
     const parsedUserData = JSON.parse(userData);
     const body = {
+      ...data,
       ...fetchData,
       token: parsedUserData,
     };
@@ -56,11 +64,14 @@ export default function Update() {
           .updateSpread(body)
           .then(() => {
             setDisable(false);
-            setFetchData({
+            reset({
               folderLinkSpreadsheet: "",
               linkSpreadsheetTemplate: "",
               spreadsheetPageName: "",
+            });
+            setFetchData({
               isProtected: false,
+              isHidden: false,
             });
             Swal.fire("Planilhas atualizadas com sucesso!");
           })
@@ -76,69 +87,42 @@ export default function Update() {
 
   return (
     <LoginPageContent>
-      <LoginForm onSubmit={submitHandler}>
-        <InputGroup>
-          <label>Link da pasta dos alunos</label>
-          <input
-            value={fetchData.folderLinkSpreadsheet}
-            type="text"
-            disabled={disable}
-            placeholder="Link da pasta"
-            onChange={(event) =>
-              setFetchData({
-                ...fetchData,
-                folderLinkSpreadsheet: event.target.value,
-              })
-            }
-          ></input>
-        </InputGroup>
-        <InputGroup>
-          <label>Template que pretende atualizar</label>
-          <input
-            value={fetchData.linkSpreadsheetTemplate}
-            type="text"
-            disabled={disable}
-            placeholder="Link do template"
-            onChange={(event) =>
-              setFetchData({
-                ...fetchData,
-                linkSpreadsheetTemplate: event.target.value,
-              })
-            }
-          ></input>
-        </InputGroup>
-        <InputGroup>
-          <label>Nome da aba que pretende atualizar</label>
-          <input
-            value={fetchData.spreadsheetPageName}
-            type="text"
-            disabled={disable}
-            placeholder="Nome da aba"
-            onChange={(event) =>
-              setFetchData({
-                ...fetchData,
-                spreadsheetPageName: event.target.value,
-              })
-            }
-          ></input>
-        </InputGroup>
-        <CheckboxGroup>
-          <label>
-            Deseja que essa aba seja protegida?
+      <LoginForm onSubmit={handleSubmit(submitHandler)}>
+        {InputInformation.map((info, index) => (
+          <InputGroup key={index}>
+            <label htmlFor={info.htmlFor}>{info.label}</label>
             <input
-              value={fetchData.isProtected}
-              type="checkbox"
+              id={info.id}
+              type={info.type}
               disabled={disable}
-              placeholder="Nome da aba"
-              onChange={() =>
-                setFetchData({
-                  ...fetchData,
-                  isProtected: !fetchData.isProtected,
-                })
-              }
-            ></input>
-          </label>
-        </CheckboxGroup>
+              placeholder={info.placeholder}
+              {...register(`${info.htmlFor}`, { required: info.error })}
+            />
+            <ErrorMessage
+              errors={errors}
+              name={info.htmlFor}
+              render={({ message }) => <span>{message}</span>}
+            />
+          </InputGroup>
+        ))}
+        {CheckBoxInformation.map((info, index) => (
+          <CheckboxGroup key={index}>
+            <label>
+              {info.label}
+              <input
+                value={fetchData + info.id}
+                type={info.type}
+                disabled={disable}
+                onChange={() =>
+                  setFetchData({
+                    ...fetchData,
+                    [info.id]: !fetchData[info.id],
+                  })
+                }
+              ></input>
+            </label>
+          </CheckboxGroup>
+        ))}
         <SubmitButton disabled={disable} type="submit">
           Atualizar
         </SubmitButton>

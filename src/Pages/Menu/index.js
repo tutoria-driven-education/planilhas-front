@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Main, Options, Buttons } from "./components/menuWrapper";
+import { Main, Options, Buttons } from "./components/MenuWrapper";
 
 export default function Menu() {
   return (

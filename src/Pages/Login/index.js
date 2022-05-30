@@ -23,13 +23,11 @@ export default function Login() {
     reset,
     formState: { errors },
   } = useForm({
-    mode: "onBlur",
     defaultValues: {
       email: "",
       password: "",
     },
   });
-
   const [disable, setDisable] = useState(false);
   const { setUserData } = useContext(UserContext);
   const api = useApi();
