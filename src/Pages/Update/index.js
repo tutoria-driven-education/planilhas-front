@@ -77,6 +77,15 @@ export default function Update() {
           })
           .catch(() => {
             setDisable(false);
+            reset({
+              folderLinkSpreadsheet: "",
+              linkSpreadsheetTemplate: "",
+              spreadsheetPageName: "",
+            });
+            setFetchData({
+              isProtected: false,
+              isHidden: false,
+            });
             Swal.fire(
               "Ocorreu um erro, verifique o drive ou se todas as planilhas foram atualizadas!"
             );

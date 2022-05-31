@@ -59,6 +59,12 @@ export default function Spreads() {
           .then(() => {
             setDisable(false);
             Swal.fire("Planilhas geradas com sucesso!");
+            reset({
+              linkSpreadsheetStudents: "",
+              linkSpreadsheetTemplate: "",
+              amountStudents: "",
+              className: "",
+            });
           })
           .catch(() => {
             setDisable(false);
