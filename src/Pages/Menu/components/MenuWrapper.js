@@ -39,7 +39,7 @@ export const Buttons = styled.div`
     margin-bottom: 30px;
   }
   button {
-    width: 200px;
+    width: 240px;
     padding: 10px;
     border: none;
     border-radius: 5px;
