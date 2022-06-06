@@ -1,31 +1,13 @@
 import styled from "styled-components";
 
-export const SubmitButton = styled.button`
-  width: 115px;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  margin: 10px 0;
-  font-size: 16px;
-  font-weight: bold;
-  color: var(--white-color);
-  background-color: var(--pink-color);
-  transition: filter 0.1s ease;
-  :hover {
-    cursor: pointer;
-    filter: brightness(0.85);
-  }
-  :focus {
-    outline: 3px solid var(--light-grey-color);
-  }
-  :disabled {
-    cursor: default;
-    background-color: var(--light-grey-color);
-    filter: brightness(1);
-  }
+export const ButtonGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 5px;
 `;
 
-export const CancelButton = styled.button`
+export const Button = styled.button`
   width: 115px;
   padding: 10px;
   border: none;
@@ -35,11 +17,11 @@ export const CancelButton = styled.button`
   color: var(--white-color);
   background-color: var(--pink-color);
   transition: filter 0.1s ease;
-  :hover {
+  &:hover {
     cursor: pointer;
     filter: brightness(0.85);
   }
-  :focus {
+  &:focus {
     outline: 3px solid var(--light-grey-color);
   }
   :disabled {
@@ -49,17 +31,16 @@ export const CancelButton = styled.button`
   }
 `;
 
-export const LoginPageContent = styled.div`
+export const CareerPageContent = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 20px;
 `;
 
-export const LoginForm = styled.form`
+export const CareerForm = styled.form`
   padding: 30px 45px;
   border-radius: 15px;
   display: flex;
@@ -99,13 +80,7 @@ export const InputGroup = styled.div`
     }
   }
   span {
-    padding-top: 5px;
     color: #fff;
-  }
-  :disabled {
-    cursor: default;
-    background-color: var(--light-grey-color);
-    filter: brightness(1);
   }
   @media (max-width: 992px) {
     width: 100%;

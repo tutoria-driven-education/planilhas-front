@@ -8,10 +8,13 @@ export default function Menu() {
         <p>Opções:</p>
         <Buttons>
           <Link to={"/planilhas"}>
-            <button>Gerar planilhas</button>
+            <button>Gerar planilhas presença</button>
           </Link>
           <Link to={"/atualizar"}>
             <button>Atualizar planilha</button>
+          </Link>
+          <Link to={"/carreira"}>
+            <button>Gerar planilhas de carreira</button>
           </Link>
         </Buttons>
       </Options>

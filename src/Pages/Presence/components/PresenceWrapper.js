@@ -17,11 +17,11 @@ export const Button = styled.button`
   color: var(--white-color);
   background-color: var(--pink-color);
   transition: filter 0.1s ease;
-  &:hover {
+  :hover {
     cursor: pointer;
     filter: brightness(0.85);
   }
-  &:focus {
+  :focus {
     outline: 3px solid var(--light-grey-color);
   }
   :disabled {
@@ -31,16 +31,17 @@ export const Button = styled.button`
   }
 `;
 
-export const UpdatePageContent = styled.div`
+export const PresencePageContent = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border-radius: 20px;
 `;
 
-export const UpdateForm = styled.form`
+export const PresenceForm = styled.form`
   padding: 30px 45px;
   border-radius: 15px;
   display: flex;
@@ -82,29 +83,10 @@ export const InputGroup = styled.div`
   span {
     color: #fff;
   }
-  @media (max-width: 992px) {
-    width: 100%;
-  }
-`;
-
-export const CheckboxGroup = styled.div`
-  user-select: none;
-  label {
-    margin: 10px 0;
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--white-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  }
-  input {
-    width: 20px;
-    height: 20px;
-    margin: 0px;
-    margin-left: 10px;
-    cursor: pointer;
+  :disabled {
+    cursor: default;
+    background-color: var(--light-grey-color);
+    filter: brightness(1);
   }
   @media (max-width: 992px) {
     width: 100%;

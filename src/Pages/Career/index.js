@@ -1,27 +1,24 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useContext } from "react";
-import UserContext from "../../Contexts/User";
-import {
-  UpdatePageContent,
-  UpdateForm,
-  ButtonGroup,
-  InputGroup,
-  Button,
-  CheckboxGroup,
-} from "./components/UpdateWrapper";
 import useApi from "../../Hooks/useApi";
-import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import UserContext from "../../Contexts/User";
 import {
-  InputInformation,
-  CheckBoxInformation,
-} from "./components/InputInformation";
+  CareerPageContent,
+  CareerForm,
+  InputGroup,
+  ButtonGroup,
+  Button,
+} from "./components/CareerWrapper";
+import { InputInformation } from "./components/InputInformation";
+import Swal from "sweetalert2";
 import Loader from "react-loader-spinner";
 
-export default function Update() {
+export default function Career() {
   const api = useApi();
+  const [disable, setDisable] = useState(false);
+  const { userData } = useContext(UserContext);
   const {
     register,
     handleSubmit,
@@ -32,20 +29,14 @@ export default function Update() {
       folderLinkSpreadsheet: "",
       linkSpreadsheetTemplate: "",
       spreadsheetPageName: "",
+      folderName: "",
     },
-  });
-  const { userData } = useContext(UserContext);
-  const [disable, setDisable] = useState(false);
-  const [fetchData, setFetchData] = useState({
-    isProtected: false,
-    isHidden: false,
   });
 
   function submitHandler(data) {
     const parsedUserData = JSON.parse(userData);
     const body = {
       ...data,
-      ...fetchData,
       token: parsedUserData,
     };
     Swal.fire({
@@ -60,21 +51,18 @@ export default function Update() {
     }).then((result) => {
       if (result.isConfirmed) {
         setDisable(true);
-        Swal.fire("Atualizando planilhas!");
-        api.update
-          .updateSpread(body)
+        Swal.fire("Gerando planilhas de carreira!");
+        api.career
+          .createCareer(body)
           .then(() => {
             setDisable(false);
             reset({
               folderLinkSpreadsheet: "",
               linkSpreadsheetTemplate: "",
               spreadsheetPageName: "",
+              folderName: "",
             });
-            setFetchData({
-              isProtected: false,
-              isHidden: false,
-            });
-            Swal.fire("Planilhas atualizadas com sucesso!");
+            Swal.fire("Planilhas geradas com sucesso!");
           })
           .catch(() => {
             setDisable(false);
@@ -82,10 +70,7 @@ export default function Update() {
               folderLinkSpreadsheet: "",
               linkSpreadsheetTemplate: "",
               spreadsheetPageName: "",
-            });
-            setFetchData({
-              isProtected: false,
-              isHidden: false,
+              folderName: "",
             });
             Swal.fire(
               "Ocorreu um erro, verifique o drive ou se todas as planilhas foram atualizadas!"
@@ -96,8 +81,8 @@ export default function Update() {
   }
 
   return (
-    <UpdatePageContent>
-      <UpdateForm onSubmit={handleSubmit(submitHandler)}>
+    <CareerPageContent>
+      <CareerForm onSubmit={handleSubmit(submitHandler)}>
         {InputInformation.map((info, index) => (
           <InputGroup key={index}>
             <label htmlFor={info.htmlFor}>{info.label}</label>
@@ -114,24 +99,6 @@ export default function Update() {
               render={({ message }) => <span>{message}</span>}
             />
           </InputGroup>
-        ))}
-        {CheckBoxInformation.map((info, index) => (
-          <CheckboxGroup key={index}>
-            <label>
-              {info.label}
-              <input
-                checked={fetchData[info.id]}
-                type={info.type}
-                disabled={disable}
-                onChange={() =>
-                  setFetchData({
-                    ...fetchData,
-                    [info.id]: !fetchData[info.id],
-                  })
-                }
-              ></input>
-            </label>
-          </CheckboxGroup>
         ))}
         <ButtonGroup>
           <Button disabled={disable} type="submit">
@@ -150,7 +117,7 @@ export default function Update() {
             <Button disabled={disable}>Voltar</Button>
           </Link>
         </ButtonGroup>
-      </UpdateForm>
-    </UpdatePageContent>
+      </CareerForm>
+    </CareerPageContent>
   );
 }

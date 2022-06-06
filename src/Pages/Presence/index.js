@@ -4,18 +4,18 @@ import useApi from "../../Hooks/useApi";
 import UserContext from "../../Contexts/User";
 import Swal from "sweetalert2";
 import {
-  LoginPageContent,
-  SubmitButton,
-  CancelButton,
-  LoginForm,
+  PresencePageContent,
+  ButtonGroup,
+  Button,
+  PresenceForm,
   InputGroup,
-} from "./components/SpreadsWrapper";
+} from "./components/PresenceWrapper";
 import Loader from "react-loader-spinner";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { InputInformation } from "./components/InputInformation";
 
-export default function Spreads() {
+export default function Presence() {
   const { userData } = useContext(UserContext);
   const [disable, setDisable] = useState(false);
   const {
@@ -40,7 +40,6 @@ export default function Spreads() {
       token: parsedUserData,
       timeout: 1000 * 60 * 20, //20 minutes
     };
-
     Swal.fire({
       title: "As planilhas estão publicas?",
       text: "Depois que iniciar esse processo, terá que espera-lo terminar, isso pode tomar algum tempo!",
@@ -54,8 +53,8 @@ export default function Spreads() {
       if (result.isConfirmed) {
         setDisable(true);
         Swal.fire("Gerando planilhas!");
-        api.execute
-          .createSpreads(body)
+        api.presence
+          .createPresence(body)
           .then(() => {
             setDisable(false);
             Swal.fire("Planilhas geradas com sucesso!");
@@ -83,8 +82,8 @@ export default function Spreads() {
   }
 
   return (
-    <LoginPageContent>
-      <LoginForm onSubmit={handleSubmit(submitHandler)}>
+    <PresencePageContent>
+      <PresenceForm onSubmit={handleSubmit(submitHandler)}>
         {InputInformation.map((info, index) => (
           <InputGroup key={index}>
             <label htmlFor={info.htmlFor}>{info.label}</label>
@@ -102,22 +101,24 @@ export default function Spreads() {
             />
           </InputGroup>
         ))}
-        <SubmitButton disabled={disable} type="submit">
-          {disable ? (
-            <Loader
-              type="ThreeDots"
-              color="var(--pink-color)"
-              height={10}
-              width={60}
-            />
-          ) : (
-            "Criar"
-          )}
-        </SubmitButton>
-        <Link to={"/menu"}>
-          <CancelButton disabled={disable}>Voltar</CancelButton>
-        </Link>
-      </LoginForm>
-    </LoginPageContent>
+        <ButtonGroup>
+          <Button disabled={disable} type="submit">
+            {disable ? (
+              <Loader
+                type="ThreeDots"
+                color="var(--pink-color)"
+                height={10}
+                width={60}
+              />
+            ) : (
+              "Criar"
+            )}
+          </Button>
+          <Link disabled={disable} to={"/menu"}>
+            <Button disabled={disable}>Voltar</Button>
+          </Link>
+        </ButtonGroup>
+      </PresenceForm>
+    </PresencePageContent>
   );
 }

@@ -84,7 +84,6 @@ export const InputGroup = styled.div`
     width: 100%;
   }
   span {
-    padding-top: 5px;
     color: #fff;
   }
 `;
