@@ -80,7 +80,7 @@ export const InputGroup = styled.div`
     }
   }
   span {
-    color: #fff;
+    color: var(--white-color);
   }
   @media (max-width: 992px) {
     width: 100%;

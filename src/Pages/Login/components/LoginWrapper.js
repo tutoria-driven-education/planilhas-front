@@ -52,7 +52,7 @@ export const Brand = styled.p`
   margin: 25px 0;
   font-size: 42px;
   font-weight: bold;
-  color: #fff;
+  color: var(--white-color);
 `;
 
 export const InputGroup = styled.div`
@@ -84,6 +84,6 @@ export const InputGroup = styled.div`
     width: 100%;
   }
   span {
-    color: #fff;
+    color: var(--white-color);
   }
 `;

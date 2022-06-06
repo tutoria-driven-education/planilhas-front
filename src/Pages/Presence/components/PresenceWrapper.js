@@ -81,7 +81,7 @@ export const InputGroup = styled.div`
     }
   }
   span {
-    color: #fff;
+    color: var(--white-color);
   }
   :disabled {
     cursor: default;
