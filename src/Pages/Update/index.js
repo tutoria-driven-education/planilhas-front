@@ -119,7 +119,7 @@ export default function Update() {
             <label>
               {info.label}
               <input
-                value={fetchData + info.id}
+                checked={fetchData[info.id]}
                 type={info.type}
                 disabled={disable}
                 onChange={() =>
