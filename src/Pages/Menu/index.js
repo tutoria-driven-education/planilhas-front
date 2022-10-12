@@ -16,6 +16,9 @@ export default function Menu() {
           <Link to={"/carreira"}>
             <button>Gerar planilhas de carreira</button>
           </Link>
+          <Link to={"/bandeiras"}>
+            <button>Atualizar bandeiras</button>
+          </Link>
         </Buttons>
       </Options>
     </Main>
