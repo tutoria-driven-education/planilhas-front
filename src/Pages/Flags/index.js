@@ -29,6 +29,7 @@ export default function Flags() {
       spreadsheetUpdate: "",
       start: "",
       end: "",
+      week: "",
     },
   });
   const api = useApi();
@@ -63,6 +64,7 @@ export default function Flags() {
               spreadsheetUpdate: "",
               start: "",
               end: "",
+              week: "",
             });
           })
           .catch(() => {
@@ -72,6 +74,7 @@ export default function Flags() {
               spreadsheetUpdate: "",
               start: "",
               end: "",
+              week: "",
             });
             Swal.fire(
               "Ocorreu um erro, verifique o drive ou as planilhas enviadas!"

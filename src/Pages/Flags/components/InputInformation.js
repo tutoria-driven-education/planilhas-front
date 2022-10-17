@@ -31,4 +31,12 @@ export const InputInformation = [
     placeholder: "Range final",
     error: "Campo com range final está vázio!",
   },
+  {
+    label: "Semana que vai ser atualizada",
+    htmlFor: "week",
+    id: "week",
+    type: "number",
+    placeholder: "Semana que vai ser atualizada",
+    error: "Campo com semana está vázio!",
+  }
 ];
