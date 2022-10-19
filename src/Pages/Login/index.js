@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import DrivenLogo from "../../Assets/DrivenLogo";
 import {
   LoginPageContent,
@@ -10,7 +10,7 @@ import {
 import useApi from "../../Hooks/useApi";
 import Swal from "sweetalert2";
 import UserContext from "../../Contexts/User";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
@@ -32,6 +32,24 @@ export default function Login() {
   const { setUserData } = useContext(UserContext);
   const api = useApi();
   const navigate = useNavigate();
+  const params = useSearchParams();
+
+  useEffect(() => {
+    const code = params[0]?.get("code");
+    if (code) {
+      api.auth
+        .sendAuth(code)
+        .then((res) => {
+          Swal.fire("Acesso confirmado!");
+          const stringfyToken = JSON.stringify(res.data.token);
+          setUserData(stringfyToken);
+          navigate("/menu");
+        })
+        .catch((_err) => {
+          return;
+        });
+    }
+  }, []);
 
   function submitHandler(data) {
     setDisable(true);
@@ -39,32 +57,7 @@ export default function Login() {
       .getAuth(data)
       .then((res) => {
         setDisable(false);
-        window.open(`${res.data.link}`, "_blank");
-        Swal.fire({
-          title:
-            "Uma nova janela será aberta, caso apareça um aviso não se preocupe, clique em avançado e aceite as permissões que está sendo pedido, após autorizar volte aqui e cole o código 😁",
-          input: "text",
-          inputAttributes: {
-            autocapitalize: "off",
-          },
-          showCancelButton: true,
-          confirmButtonText: "Enviar código",
-          showLoaderOnConfirm: true,
-          preConfirm: (code) => {
-            api.auth
-              .sendAuth(code)
-              .then((res) => {
-                Swal.fire("Acesso confirmado!");
-                const stringfyToken = JSON.stringify(res.data.token);
-                setUserData(stringfyToken);
-                navigate("/menu");
-              })
-              .catch((_err) => {
-                return;
-              });
-          },
-          allowOutsideClick: () => !Swal.isLoading(),
-        });
+        window.open(`${res.data.link}`, "_self");
       })
       .catch((err) => {
         setDisable(false);
