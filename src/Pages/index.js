@@ -6,6 +6,7 @@ import Update from "./Update";
 import SharedLayout from "./SharedLayout";
 import ErrorMessage from "./ErrorMessage";
 import Career from "./Career";
+import Flags from "./Flags";
 
 export default function Pages() {
   return (
@@ -16,6 +17,7 @@ export default function Pages() {
         <Route path="/planilhas" element={<Presence />} />
         <Route path="/atualizar" element={<Update />} />
         <Route path="/carreira" element={<Career />} />
+        <Route path="/bandeiras" element={<Flags />} />
         <Route path="*" element={<ErrorMessage />} />
       </Route>
     </Switch>
